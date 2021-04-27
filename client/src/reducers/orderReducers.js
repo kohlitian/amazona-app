@@ -3,6 +3,9 @@ import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_RESET,
     ORDER_CREATE_SUCCESS,
+    ORDER_DETAIS_FAIL,
+    ORDER_DETAIS_REQUEST,
+    ORDER_DETAIS_SUCCESS,
 } from '../constants/orderConstants';
 
 export const orderCreateReducer = (state = {}, action) => {
@@ -15,6 +18,22 @@ export const orderCreateReducer = (state = {}, action) => {
             return { loading: false, error: action.payload };
         case ORDER_CREATE_RESET:
             return {};
+        default:
+            return state;
+    }
+};
+
+export const orderDetailReducer = (
+    state = { loading: true, order: {} },
+    action
+) => {
+    switch (action.type) {
+        case ORDER_DETAIS_REQUEST:
+            return { loading: true };
+        case ORDER_DETAIS_SUCCESS:
+            return { loading: false, order: action.payload };
+        case ORDER_DETAIS_FAIL:
+            return { loading: false, error: action.payload };
         default:
             return state;
     }
