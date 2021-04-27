@@ -82,7 +82,7 @@ export default function OrderScreen(props) {
                                                 </div>
                                                 <div className="min-30">
                                                     <Link
-                                                        to={`/products/${item.product}`}
+                                                        to={`/product/${item.product}`}
                                                     >
                                                         {item.name}
                                                     </Link>
