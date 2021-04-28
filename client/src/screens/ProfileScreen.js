@@ -1,24 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { detailsUser } from '../actions/userActions';
+import { detailsUser, updateUserProfile } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 export default function ProfileScreen() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
     const userDetails = useSelector((state) => state.userDetails);
     const { loading, error, user } = userDetails;
+    const userProfileUpdate = useSelector((state) => state.userProfileUpdate);
+    const {
+        success: successUpdate,
+        error: errorUpdate,
+        loading: loadingUpdate,
+    } = userProfileUpdate;
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!user) {
+            dispatch({ type: USER_UPDATE_PROFILE_RESET });
+            dispatch(detailsUser(userInfo._id));
+        } else {
+            setName(user.name);
+            setEmail(user.email);
+        }
+    }, [dispatch, userInfo._id, user]);
 
     const submitHandler = (e) => {
         e.preventDefault();
-        //dispatch(updateProfile)
+        if (password !== confirmPassword) {
+            alert('Password and Confirm Password Are Not Matched');
+        } else {
+            dispatch(
+                updateUserProfile({ userId: user._id, name, email, password })
+            );
+        }
     };
-
-    useEffect(() => {
-        dispatch(detailsUser(userInfo._id));
-    }, [dispatch, userInfo._id]);
 
     return (
         <div>
@@ -32,13 +56,25 @@ export default function ProfileScreen() {
                     <MessageBox variant="danger">{error}</MessageBox>
                 ) : (
                     <>
+                        {loadingUpdate && <LoadingBox></LoadingBox>}
+                        {errorUpdate && (
+                            <MessageBox variant="danger">
+                                {errorUpdate}
+                            </MessageBox>
+                        )}
+                        {successUpdate && (
+                            <MessageBox variant="success">
+                                Profile Update Successfully
+                            </MessageBox>
+                        )}
                         <div>
                             <label htmlFor="name">Name</label>
                             <input
                                 type="text"
                                 id="name"
                                 placeholder="Enter Name"
-                                value={user.name}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </div>
                         <div>
@@ -47,7 +83,8 @@ export default function ProfileScreen() {
                                 type="email"
                                 id="email"
                                 placeholder="Enter Email"
-                                value={user.email}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div>
@@ -56,6 +93,7 @@ export default function ProfileScreen() {
                                 type="password"
                                 id="password"
                                 placeholder="Enter Password"
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
                         <div>
@@ -66,6 +104,9 @@ export default function ProfileScreen() {
                                 type="password"
                                 id="confirmPassword"
                                 placeholder="Enter Confirm Password"
+                                onChange={(e) =>
+                                    setConfirmPassword(e.target.value)
+                                }
                             />
                         </div>
                         <div>
