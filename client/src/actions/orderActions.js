@@ -5,6 +5,10 @@ import {
     ORDER_DETAIS_FAIL,
     ORDER_DETAIS_REQUEST,
     ORDER_DETAIS_SUCCESS,
+    ORDER_PAY_REQUEST,
+    ORDER_PAY_SUCCESS,
+    ORDER_PAY_FAIL,
+    ORDER_PAY_RESET,
 } from '../constants/orderConstants';
 import Axios from 'axios';
 import { CART_EMPTY } from '../constants/cartConstant';
@@ -50,5 +54,33 @@ export const detailsOrder = (orderId) => async (dispatch, getState) => {
                 ? error.response.data.message
                 : error.message;
         dispatch({ type: ORDER_DETAIS_FAIL, payload: message });
+    }
+};
+
+export const payOrder = (order, paymentResult) => async (
+    dispatch,
+    getState
+) => {
+    dispatch({ type: ORDER_PAY_REQUEST, payoad: { order, paymentResult } });
+    const {
+        userSignin: { userInfo },
+    } = getState();
+    try {
+        const { data } = Axios.put(
+            `/api/orders/${order._id}/pay`,
+            paymentResult,
+            {
+                headers: { Authorization: `Bearer ${userInfo.token}` },
+            }
+        );
+        dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: ORDER_PAY_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
     }
 };
