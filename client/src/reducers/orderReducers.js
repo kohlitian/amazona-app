@@ -23,10 +23,7 @@ export const orderCreateReducer = (state = {}, action) => {
     }
 };
 
-export const orderDetailReducer = (
-    state = { loading: true, order: {} },
-    action
-) => {
+export const orderDetailReducer = (state = { loading: true }, action) => {
     switch (action.type) {
         case ORDER_DETAIS_REQUEST:
             return { loading: true };
