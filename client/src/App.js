@@ -12,6 +12,7 @@ import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
 
 function App() {
     const cart = useSelector((state) => state.cart);
@@ -50,12 +51,19 @@ function App() {
                                     <i className="fa fa-caret-down"></i>{' '}
                                 </Link>
                                 <ul className="dropdown-content">
-                                    <Link
-                                        to="#signout"
-                                        onClick={signoutHandler}
-                                    >
-                                        Sign Out
-                                    </Link>
+                                    <li>
+                                        <Link to="/orderhistory">
+                                            Order History
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="#signout"
+                                            onClick={signoutHandler}
+                                        >
+                                            Sign Out
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         ) : (
@@ -73,6 +81,10 @@ function App() {
                     <Route path="/payment" component={PaymentMethodScreen} />
                     <Route path="/placeorder" component={PlaceOrderScreen} />
                     <Route path="/order/:id" component={OrderScreen} />
+                    <Route
+                        path="/orderhistory"
+                        component={OrderHistoryScreen}
+                    />
                 </main>
                 <footer className="row center">All Right Reserved</footer>
             </div>
