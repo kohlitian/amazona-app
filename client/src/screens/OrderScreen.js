@@ -75,7 +75,8 @@ export default function OrderScreen(props) {
                                 </p>
                                 {order.isDelivered ? (
                                     <MessageBox variant="success">
-                                        Delivered at {order.dekiveredAt}
+                                        Delivered at{' '}
+                                        {order.deliveredAt.substring(0, 10)}
                                     </MessageBox>
                                 ) : (
                                     <MessageBox variant="danger">
@@ -93,7 +94,7 @@ export default function OrderScreen(props) {
                                 </p>
                                 {order.isPaid ? (
                                     <MessageBox variant="success">
-                                        Paid at {order.paidAt}
+                                        Paid at {order.paidAt.substring(0, 10)}
                                     </MessageBox>
                                 ) : (
                                     <MessageBox variant="danger">
