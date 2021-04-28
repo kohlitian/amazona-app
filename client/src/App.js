@@ -100,7 +100,11 @@ function App() {
                     </div>
                 </header>
                 <main>
-                    <Route path="/product/:id" component={ProductScreen} />
+                    <Route
+                        path="/product/:id"
+                        exact
+                        component={ProductScreen}
+                    />
                     <Route path="/" component={HomeScreen} exact />
                     <Route path="/cart/:id?" component={CartScreen} />
                     <Route path="/signin" component={SigninScreen} />
