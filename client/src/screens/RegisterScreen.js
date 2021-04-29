@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { register } from '../actions/userActions';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
+import { USER_REGISTER_REST } from '../constants/userConstants';
 
 export default function RegisterScreen(props) {
     const [email, setEmail] = useState('');
@@ -30,9 +31,10 @@ export default function RegisterScreen(props) {
 
     useEffect(() => {
         if (userInfo) {
+            dispatch({ type: USER_REGISTER_REST });
             props.history.push(redirect);
         }
-    }, [props.history, redirect, userInfo]);
+    }, [dispatch, props.history, redirect, userInfo]);
 
     return (
         <div>
