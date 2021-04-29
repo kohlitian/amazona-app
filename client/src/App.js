@@ -21,6 +21,7 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import SellerRoute from './components/SellerRoute';
 
 function App() {
     const cart = useSelector((state) => state.cart);
@@ -80,6 +81,25 @@ function App() {
                         ) : (
                             <Link to="/signin"> Sign In </Link>
                         )}
+                        {userInfo && userInfo.isSeller && (
+                            <div className="dropdown">
+                                <Link to="#seller">
+                                    Seller <i className="fa fa-caret-down"></i>
+                                </Link>
+                                <ul className="dropdown-content">
+                                    <li>
+                                        <Link to="/productlist/seller">
+                                            Products
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/orderlist/seller">
+                                            Orders
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
                         {userInfo && userInfo.isAdmin && (
                             <div className="dropdown">
                                 <Link to="#admin">
@@ -125,17 +145,30 @@ function App() {
                     <AdminRoute
                         path="/productlist"
                         component={ProductListScreen}
+                        exact
                     />
                     <AdminRoute
                         path="/product/:id/edit"
                         component={ProductEditScreen}
                         exact
                     />
-                    <AdminRoute path="/orderlist" component={OrderListScreen} />
+                    <AdminRoute
+                        path="/orderlist"
+                        component={OrderListScreen}
+                        exact
+                    />
                     <AdminRoute path="/userlist" component={UserListScreen} />
                     <AdminRoute
                         path="/user/:id/edit"
                         component={UserEditScreen}
+                    />
+                    <SellerRoute
+                        path="/productlist/seller"
+                        component={ProductListScreen}
+                    />
+                    <SellerRoute
+                        path="/orderlist/seller"
+                        component={OrderListScreen}
                     />
                 </main>
                 <footer className="row center">All Right Reserved</footer>
