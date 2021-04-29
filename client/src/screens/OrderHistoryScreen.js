@@ -47,7 +47,7 @@ export default function OrderHistoryScreen(props) {
                                     </td>
                                     <td>
                                         {order.isDelivered
-                                            ? order.isDelivered.substring(0, 10)
+                                            ? order.deliveredAt.substring(0, 10)
                                             : 'No'}
                                     </td>
                                     <td>
