@@ -405,3 +405,8 @@ img.large {
     border-right: none;
     margin-left: 0.5rem;
 }
+
+.active {
+    font-weight: bold;
+    font-size: 1.7rem;
+}

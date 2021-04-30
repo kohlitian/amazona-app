@@ -217,7 +217,7 @@ function App() {
                     />
                     <Route path="/seller/:id" component={SellerScreen} />
                     <Route
-                        path="/search/name/:name"
+                        path="/search/name/:name?"
                         component={SearchScreen}
                         exact
                     />
@@ -228,6 +228,11 @@ function App() {
                     />
                     <Route
                         path="/search/category/:category/name/:name"
+                        component={SearchScreen}
+                        exact
+                    />
+                    <Route
+                        path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order"
                         component={SearchScreen}
                         exact
                     />
