@@ -52,20 +52,21 @@ export default function SearchScreen(props) {
     };
 
     return (
-        <div>
+        <div style={{ paddingLeft: '1rem' }}>
             <div className="row">
                 {loading ? (
                     <LoadingBox></LoadingBox>
                 ) : error ? (
                     <MessageBox variant="danger">{error}</MessageBox>
                 ) : (
-                    <div>
+                    <div style={{ fontSize: '1.7rem' }}>
                         <strong>Found {products.length} Result</strong>
                     </div>
                 )}
                 <div>
-                    Sort by{' '}
+                    <strong>Sort by</strong>{' '}
                     <select
+                        style={{ padding: 0, margin: '0 1rem' }}
                         value={order}
                         onChange={(e) =>
                             props.history.push(
