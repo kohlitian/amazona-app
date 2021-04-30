@@ -5,12 +5,14 @@ import {
     deleteProduct,
     listProducts,
 } from '../actions/productActions';
+import { detailsUser } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import {
     PRODUCT_CREATE_RESET,
     PRODUCT_DELETE_RESET,
 } from '../constants/productConstants';
+import { USER_DETAILS_RESET } from '../constants/userConstants';
 
 export default function ProductListScreen(props) {
     const sellerMode = props.match.path.indexOf('/seller') >= 0;
@@ -31,6 +33,8 @@ export default function ProductListScreen(props) {
     } = productDelete;
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
+    const userDetails = useSelector((state) => state.userDetails);
+    const { user } = userDetails;
 
     const dispatch = useDispatch();
 
@@ -42,9 +46,17 @@ export default function ProductListScreen(props) {
         if (successDelete) {
             dispatch({ type: PRODUCT_DELETE_RESET });
         }
+        dispatch(detailsUser(userInfo._id));
         dispatch(listProducts({ seller: sellerMode ? userInfo._id : '' }));
-    }, [createdProduct, dispatch, props.history, successCreate, successDelete]);
-
+    }, [
+        createdProduct,
+        dispatch,
+        props.history,
+        sellerMode,
+        successCreate,
+        successDelete,
+        userInfo._id,
+    ]);
     const deleteHandler = (product) => {
         if (window.confirm('Are you sure to delete?')) {
             dispatch(deleteProduct(product._id));
@@ -52,7 +64,18 @@ export default function ProductListScreen(props) {
     };
 
     const createHandler = () => {
-        dispatch(createProduct());
+        if (user.seller.name) {
+            dispatch({ type: USER_DETAILS_RESET });
+            dispatch(createProduct());
+        } else {
+            if (
+                window.confirm(
+                    'Please fill up profile form before creating product'
+                )
+            ) {
+                props.history.push('/profile');
+            }
+        }
     };
 
     return (

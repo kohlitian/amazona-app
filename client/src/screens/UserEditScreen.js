@@ -36,7 +36,7 @@ export default function UserEditScreen(props) {
             setIsAdmin(user.isAdmin);
             setIsSeller(user.isSeller);
         }
-    }, [dispatch, user, userId, successUpdate, props.hisotry]);
+    }, [dispatch, user, userId, successUpdate, props.history]);
 
     const submitHandler = (e) => {
         e.preventDefault();

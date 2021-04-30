@@ -29,7 +29,7 @@ export default function ProductEditScreen(props) {
 
     useEffect(() => {
         if (successUpdate) {
-            props.history.push('/productlist');
+            props.history.push('/productlist/seller');
         }
         if (!product || product._id !== productId || successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET });
