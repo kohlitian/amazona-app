@@ -69,7 +69,7 @@ productRouter.get(
         await Product.remove({});
         const seller = await User.findOne({ isSeller: true });
         if (seller) {
-            const products = seller.products.map((product) => ({
+            const products = data.products.map((product) => ({
                 ...product,
                 seller: seller._id,
             }));
