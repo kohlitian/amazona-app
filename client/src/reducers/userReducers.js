@@ -29,6 +29,7 @@ import {
     USER_TOPSELLER_LIST_REQUEST,
     USER_TOPSELLER_LIST_SUCCESS,
     USER_TOPSELLER_LIST_FAIL,
+    USER_ADDRESS_MAP_CONFIRM,
 } from '../constants/userConstants';
 
 export const userSigninReducer = (state = {}, action) => {
@@ -142,6 +143,15 @@ export const userTopSellerReducer = (state = { loading: true }, action) => {
             return { loading: false, users: action.payload };
         case USER_TOPSELLER_LIST_FAIL:
             return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+
+export const userAddressMapReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_ADDRESS_MAP_CONFIRM:
+            return { address: action.payload };
         default:
             return state;
     }
