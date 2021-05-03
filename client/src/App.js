@@ -30,6 +30,7 @@ import { listProductCategories } from './actions/productActions';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
 import MapScreen from './screens/MapScreen';
+import DashboardScreen from './screens/DashboardScreen';
 
 function App() {
     const cart = useSelector((state) => state.cart);
@@ -143,7 +144,7 @@ function App() {
                                 </Link>
                                 <ul className="dropdown-content">
                                     <li>
-                                        <Link to="/dashbord">Dashboard</Link>
+                                        <Link to="/dashboard">Dashboard</Link>
                                     </li>
                                     <li>
                                         <Link to="/productlist">Products</Link>
@@ -277,6 +278,11 @@ function App() {
                     <AdminRoute
                         path="/userlist"
                         component={UserListScreen}
+                        exact
+                    />
+                    <AdminRoute
+                        path="/dashboard"
+                        component={DashboardScreen}
                         exact
                     />
                     <AdminRoute
