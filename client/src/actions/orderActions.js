@@ -96,17 +96,23 @@ export const payOrder = (order, paymentResult) => async (
     }
 };
 
-export const listOrderMine = () => async (dispatch, getState) => {
+export const listOrderMine = ({ pageNumber = '' }) => async (
+    dispatch,
+    getState
+) => {
     dispatch({ type: ORDER_MINE_LIST_REQUEST });
     const {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await Axios.get('/api/orders/mine', {
-            headers: {
-                Authorization: `Baerer ${userInfo.token}`,
-            },
-        });
+        const { data } = await Axios.get(
+            `/api/orders/mine?pageNumber=${pageNumber}`,
+            {
+                headers: {
+                    Authorization: `Baerer ${userInfo.token}`,
+                },
+            }
+        );
         dispatch({ type: ORDER_MINE_LIST_SUCCESS, payload: data });
     } catch (error) {
         dispatch({
@@ -119,15 +125,21 @@ export const listOrderMine = () => async (dispatch, getState) => {
     }
 };
 
-export const listOrders = ({ seller = '' }) => async (dispatch, getState) => {
+export const listOrders = ({ seller = '', pageNumber = '' }) => async (
+    dispatch,
+    getState
+) => {
     dispatch({ type: ORDER_LIST_REQUEST });
     const {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await Axios.get(`/api/orders?seller=${seller}`, {
-            headers: { Authorization: `Bearer ${userInfo.token}` },
-        });
+        const { data } = await Axios.get(
+            `/api/orders?seller=${seller}&pageNumber=${pageNumber}`,
+            {
+                headers: { Authorization: `Bearer ${userInfo.token}` },
+            }
+        );
         dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
     } catch (error) {
         dispatch({

@@ -123,15 +123,21 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     }
 };
 
-export const listUsers = () => async (dispatch, getState) => {
+export const listUsers = ({ pageNumber = '' }) => async (
+    dispatch,
+    getState
+) => {
     dispatch({ type: USER_LIST_REQUEST });
     const {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await Axios.get('/api/users', {
-            headers: { Authorization: `Bearer ${userInfo.token}` },
-        });
+        const { data } = await Axios.get(
+            `/api/users?pageNumber=${pageNumber}`,
+            {
+                headers: { Authorization: `Bearer ${userInfo.token}` },
+            }
+        );
         dispatch({ type: USER_LIST_SUCCESS, payload: data });
     } catch (error) {
         dispatch({

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import { Link } from 'react-router-dom';
@@ -15,8 +15,9 @@ export default function SearchScreen(props) {
     const max = props.match.params.max || 1000000;
     const rating = props.match.params.rating || 0;
     const order = props.match.params.order || 'newest';
+    var pageNumber = props.match.params.pageNumber || 1;
     const productList = useSelector((state) => state.productList);
-    const { loading, error, products } = productList;
+    const { loading, error, products, pages, page } = productList;
     const productCategoryList = useSelector(
         (state) => state.productCategoryList
     );
@@ -31,6 +32,7 @@ export default function SearchScreen(props) {
     useEffect(() => {
         dispatch(
             listProducts({
+                pageNumber,
                 name: name !== 'all' ? name : '',
                 category: category !== 'all' ? category : '',
                 min,
@@ -39,7 +41,7 @@ export default function SearchScreen(props) {
                 order,
             })
         );
-    }, [dispatch, name, category, min, max, rating, order]);
+    }, [dispatch, name, category, min, max, rating, order, pageNumber]);
 
     const getFilterUrl = (filter) => {
         const filterCategory = filter.category || category;
@@ -48,7 +50,8 @@ export default function SearchScreen(props) {
         const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
         const filterRating = filter.rating || rating;
         const sortOrder = filter.order || order;
-        return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}/order/${sortOrder}`;
+        const filterPage = filter.page || pageNumber;
+        return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}/order/${sortOrder}/pageNumber/${filterPage}`;
     };
 
     return (
@@ -98,7 +101,10 @@ export default function SearchScreen(props) {
                                         className={
                                             'all' === category ? 'active' : ''
                                         }
-                                        to={getFilterUrl({ category: 'all' })}
+                                        to={getFilterUrl({
+                                            category: 'all',
+                                            page: 1,
+                                        })}
                                     >
                                         Any
                                     </Link>
@@ -109,7 +115,10 @@ export default function SearchScreen(props) {
                                             className={
                                                 c === category ? 'active' : ''
                                             }
-                                            to={getFilterUrl({ category: c })}
+                                            to={getFilterUrl({
+                                                category: c,
+                                                page: 1,
+                                            })}
                                         >
                                             {c}
                                         </Link>
@@ -127,6 +136,7 @@ export default function SearchScreen(props) {
                                         to={getFilterUrl({
                                             min: p.min,
                                             max: p.max,
+                                            page: 1,
                                         })}
                                         className={
                                             `${p.min}-${p.max}` ===
@@ -147,8 +157,10 @@ export default function SearchScreen(props) {
                             {ratings.map((r) => (
                                 <li key={r.name}>
                                     <Link
+                                        onClick={() => (pageNumber = 1)}
                                         to={getFilterUrl({
                                             rating: r.rating,
+                                            page: 1,
                                         })}
                                         className={
                                             `${r.rating}` === `${rating}`
@@ -167,10 +179,10 @@ export default function SearchScreen(props) {
                     </div>
                 </div>
                 <div className="col-3">
-                    <>
-                        {!products || products.length === 0 ? (
-                            <MessageBox>No Product Found</MessageBox>
-                        ) : (
+                    {!products || products.length === 0 ? (
+                        <MessageBox>No Product Found</MessageBox>
+                    ) : (
+                        <>
                             <div className="row center">
                                 {products.map((product) => (
                                     <Product
@@ -179,8 +191,21 @@ export default function SearchScreen(props) {
                                     />
                                 ))}
                             </div>
-                        )}
-                    </>
+                            <div className="row center pagination">
+                                {[...Array(pages).keys()].map((x) => (
+                                    <Link
+                                        className={
+                                            x + 1 === page ? 'active' : ''
+                                        }
+                                        key={x + 1}
+                                        to={getFilterUrl({ page: x + 1 })}
+                                    >
+                                        {x + 1}
+                                    </Link>
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

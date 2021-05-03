@@ -11,12 +11,18 @@ orderRouter.get(
     isSellerOrAdmin,
     expressAsyncHandler(async (req, res) => {
         const seller = req.query.seller || '';
+        const pageSize = 3;
+        const page = Number(req.query.pageNumber) || 1;
         const sellerFilter = seller ? { seller } : {};
-        const orders = await Order.find({ ...sellerFilter }).populate(
+        const count = await Order.count({ ...sellerFilter }).populate(
             'user',
             'name'
         );
-        res.send(orders);
+        const orders = await Order.find({ ...sellerFilter })
+            .populate('user', 'name')
+            .skip((page - 1) * pageSize)
+            .limit(pageSize);
+        res.send({ orders, page, pages: Math.ceil(count / pageSize) });
     })
 );
 
@@ -24,8 +30,13 @@ orderRouter.get(
     '/mine',
     isAuth,
     expressAsyncHandler(async (req, res) => {
-        const orders = await Order.find({ user: req.user._id });
-        res.send(orders);
+        const pageSize = 3;
+        const page = Number(req.query.pageNumber) || 1;
+        const count = await Order.count({ user: req.user._id });
+        const orders = await Order.find({ user: req.user._id })
+            .skip((page - 1) * pageSize)
+            .limit(pageSize);
+        res.send({ orders, page, pages: Math.ceil(count / pageSize) });
     })
 );
 
