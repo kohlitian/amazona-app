@@ -116,7 +116,7 @@ userRouter.get(
     expressAsyncHandler(async (req, res) => {
         const pageSize = 3;
         const page = Number(req.query.pageNumber) || 1;
-        const count = await User.count({});
+        const count = await User.countDocuments({});
         const users = await User.find({})
             .skip((page - 1) * pageSize)
             .limit(pageSize);

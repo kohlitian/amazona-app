@@ -22,7 +22,7 @@ orderRouter.get(
         const pageSize = 3;
         const page = Number(req.query.pageNumber) || 1;
         const sellerFilter = seller ? { seller } : {};
-        const count = await Order.count({ ...sellerFilter }).populate(
+        const count = await Order.countDocuments({ ...sellerFilter }).populate(
             'user',
             'name'
         );
@@ -99,7 +99,7 @@ orderRouter.get(
     expressAsyncHandler(async (req, res) => {
         const pageSize = 3;
         const page = Number(req.query.pageNumber) || 1;
-        const count = await Order.count({ user: req.user._id });
+        const count = await Order.countDocuments({ user: req.user._id });
         const orders = await Order.find({ user: req.user._id })
             .skip((page - 1) * pageSize)
             .limit(pageSize);
@@ -169,7 +169,8 @@ orderRouter.put(
                 .messages()
                 .send(
                     {
-                        from: 'Amazona <amazona@mg.yourdomain.com>',
+                        from:
+                            'Amazona <amazona@https://reactnode-amazona.herokuapp.com.com>',
                         to: `${order.user.name} <${order.user.email}>`,
                         subject: `New Order ${order._id}`,
                         html: payOrderEmailTemplate(order),

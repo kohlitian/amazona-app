@@ -31,6 +31,8 @@ import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
 import MapScreen from './screens/MapScreen';
 import DashboardScreen from './screens/DashboardScreen';
+import SupportScreen from './screens/SupportScreen';
+import ChatBox from './components/ChatBox';
 
 function App() {
     const cart = useSelector((state) => state.cart);
@@ -155,6 +157,9 @@ function App() {
                                     <li>
                                         <Link to="/userlist">Users</Link>
                                     </li>
+                                    <li>
+                                        <Link to="/support">Support</Link>
+                                    </li>
                                 </ul>
                             </div>
                         )}
@@ -260,6 +265,7 @@ function App() {
                         component={ProductListScreen}
                         exact
                     />
+                    <AdminRoute path="/support" component={SupportScreen} />
                     <AdminorSellerRoute
                         path="/product/:id/edit"
                         component={ProductEditScreen}
@@ -315,7 +321,12 @@ function App() {
                         exact
                     />
                 </main>
-                <footer className="row center">All Right Reserved</footer>
+                <footer className="row center">
+                    {userInfo && !userInfo.isAdmin && (
+                        <ChatBox userInfo={userInfo} />
+                    )}
+                    All Right Reserved
+                </footer>
             </div>
         </BrowserRouter>
     );
