@@ -50,21 +50,21 @@ export default function OrderListScreen(props) {
                 <MessageBox variant="danger">{error}</MessageBox>
             ) : (
                 <>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>USER</th>
-                                <th>DATE</th>
-                                <th>TOTAL</th>
-                                <th>PAID</th>
-                                <th>DELIVERED</th>
-                                <th>ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders ? (
-                                orders.map((order) => (
+                    {orders ? (
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>USER</th>
+                                    <th>DATE</th>
+                                    <th>TOTAL</th>
+                                    <th>PAID</th>
+                                    <th>DELIVERED</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.map((order) => (
                                     <tr key={order._id}>
                                         <td>{order._id}</td>
                                         <td>{order.user.name}</td>
@@ -108,14 +108,12 @@ export default function OrderListScreen(props) {
                                             </button>
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <MessageBox variant="danger">
-                                    No Order Found
-                                </MessageBox>
-                            )}
-                        </tbody>
-                    </table>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <MessageBox variant="danger">No Order Found</MessageBox>
+                    )}
                     <div className="row center pagination">
                         {[...Array(pages).keys()].map((x) => (
                             <Link

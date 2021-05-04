@@ -27,7 +27,7 @@ export default function ProfileScreen() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!user || user._id !== userInfo._id) {
+        if (!user || user._id !== userInfo._id || successUpdate) {
             dispatch({ type: USER_UPDATE_PROFILE_RESET });
             dispatch(detailsUser(userInfo._id));
         } else {
@@ -39,7 +39,7 @@ export default function ProfileScreen() {
                 setSellerDescription(user.seller.description);
             }
         }
-    }, [dispatch, userInfo._id, user]);
+    }, [dispatch, userInfo._id, user, successUpdate]);
 
     const submitHandler = (e) => {
         e.preventDefault();

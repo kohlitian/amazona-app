@@ -49,12 +49,14 @@ export default function UserListScreen(props) {
                 <>
                     <table className="table">
                         <thead>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>EMAIL</th>
-                            <th>IS SELLER</th>
-                            <th>IS ADMIN</th>
-                            <th>ACTONS</th>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>EMAIL</th>
+                                <th>IS SELLER</th>
+                                <th>IS ADMIN</th>
+                                <th>ACTONS</th>
+                            </tr>
                         </thead>
                         <tbody>
                             {users.map((user) => (

@@ -30,7 +30,11 @@ orderRouter.get(
             .populate('user', 'name')
             .skip((page - 1) * pageSize)
             .limit(pageSize);
-        res.send({ orders, page, pages: Math.ceil(count / pageSize) });
+        res.send({
+            orders,
+            page,
+            pages: Math.ceil(count / pageSize),
+        });
     })
 );
 
@@ -103,7 +107,11 @@ orderRouter.get(
         const orders = await Order.find({ user: req.user._id })
             .skip((page - 1) * pageSize)
             .limit(pageSize);
-        res.send({ orders, page, pages: Math.ceil(count / pageSize) });
+        res.send({
+            orders,
+            page,
+            pages: Math.ceil(count / pageSize),
+        });
     })
 );
 

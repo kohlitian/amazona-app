@@ -70,7 +70,12 @@ productRouter.get(
             .sort(sortOrder)
             .skip((page - 1) * pageSize)
             .limit(pageSize);
-        res.send({ products, page, pages: Math.ceil(count / pageSize) });
+        res.send({
+            products,
+            page,
+            pages: Math.ceil(count / pageSize),
+            totalItems: count,
+        });
     })
 );
 

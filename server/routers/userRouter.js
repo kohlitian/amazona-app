@@ -120,7 +120,11 @@ userRouter.get(
         const users = await User.find({})
             .skip((page - 1) * pageSize)
             .limit(pageSize);
-        res.send({ users, page, pages: Math.ceil(count / pageSize) });
+        res.send({
+            users,
+            page,
+            pages: Math.ceil(count / pageSize),
+        });
     })
 );
 

@@ -17,7 +17,7 @@ export default function SearchScreen(props) {
     const order = props.match.params.order || 'newest';
     var pageNumber = props.match.params.pageNumber || 1;
     const productList = useSelector((state) => state.productList);
-    const { loading, error, products, pages, page } = productList;
+    const { loading, error, products, pages, page, totalItems } = productList;
     const productCategoryList = useSelector(
         (state) => state.productCategoryList
     );
@@ -63,7 +63,7 @@ export default function SearchScreen(props) {
                     <MessageBox variant="danger">{error}</MessageBox>
                 ) : (
                     <div style={{ fontSize: '1.7rem' }}>
-                        <strong>Found {products.length} Result</strong>
+                        <strong>Found {totalItems} Result</strong>
                     </div>
                 )}
                 <div>
